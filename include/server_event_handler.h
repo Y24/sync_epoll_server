@@ -8,6 +8,8 @@
 #include <sys/epoll.h>
 #include <unistd.h>
 
+#include <unordered_map>
+
 #include "event_manager.h"
 #include "io_handler.h"
 #include "session_manager.h"
@@ -18,16 +20,18 @@ class EventHandler {
   EventManager eventManager;
   SessionManager sessionManager;
   DataFactory factory;
+  std::vector<std::string> logPool;
   /// Note: handle_accpet don't contains the session-pairing work
   /// when accpet successed, write `fd` immidiately back to the
   /// client.
-  void handle_accpet(DemoData &data);
-  void do_read(int fd, DemoData &data);
-  void do_write(int fd, DemoData &data);
+  void handle_accpet(std::unordered_map<int, DemoData> &data);
+  void do_read(int fd, std::unordered_map<int, DemoData> &data);
+  void do_write(int fd, std::unordered_map<int, DemoData> &data);
 
  public:
   EventHandler(int epollFd, int listenFd);
-  void handle(epoll_event *events, int num, DemoData &data);
+  void handle(epoll_event *events, int num,
+              std::unordered_map<int, DemoData> &data);
   ~EventHandler() = default;
 };
 #endif  // server_event_handler.h

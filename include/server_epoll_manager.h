@@ -3,6 +3,8 @@
 #include <sys/epoll.h>
 #include <unistd.h>
 
+#include <unordered_map>
+
 #include "server_event_handler.h"
 class EpollManager {
  private:
@@ -11,7 +13,7 @@ class EpollManager {
   int epollFd;
   epoll_event* events;
   int nEvents;
-  DemoData data;
+  std::unordered_map<int, DemoData> data;
 
   EventHandler handler;
 
@@ -21,4 +23,4 @@ class EpollManager {
   void work();
   ~EpollManager();
 };
-#endif // server_epoll_manager.h
+#endif  // server_epoll_manager.h

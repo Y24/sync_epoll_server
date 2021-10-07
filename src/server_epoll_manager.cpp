@@ -13,10 +13,10 @@ EpollManager::EpollManager(int listenFd, int size, int nEvents)
       nEvents(nEvents),
       events(new epoll_event[nEvents]),
       epollFd(epoll_create(size)),
-      data(DemoData()),
+      data({}),
       handler(EventHandler(epollFd, listenFd)) {}
 void EpollManager::work() {
-  data = DemoData();
+  data = {};
   while (true) {
     int ret = epoll_wait(epollFd, events, nEvents, -1);
     handler.handle(events, ret, data);

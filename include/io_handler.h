@@ -10,7 +10,7 @@ class IOHandler {
   int fd;
   static const DataFactory factory;
   static void inPanic(int fd) {
-    perror("read error:");
+    // perror("read error:");
     close(fd);
   }
   static void outPanic(int fd) {

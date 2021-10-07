@@ -19,5 +19,5 @@ void SocketServer::serve(int size, int nEvents) {
 
 SocketServer::~SocketServer() {
   close(fd);
-  printf("SocketServer destruct !");
+  printf("SocketServer destruct !\n");
 }
