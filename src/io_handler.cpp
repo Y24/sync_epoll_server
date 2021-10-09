@@ -19,8 +19,12 @@ DemoData IOHandler::read() {
       return DemoData(data_invalid);
     }
     sizeBuf[nSize] = '\0';
-    long long size = factory.stringTo<long long>(std::string(sizeBuf));
+    auto [status, size] = factory.stringTo<long long>(std::string(sizeBuf));
     delete[] sizeBuf;
+    if (!status || size <= 0) {
+      inPanic(fd);
+      return DemoData(data_invalid);
+    }
     char* source = new char[size];
     if (long long cnt = ::read(fd, source, size); cnt < size) {
       inPanic(fd);

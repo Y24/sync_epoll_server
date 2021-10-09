@@ -3,6 +3,8 @@
 #include <ctime>
 #include <sstream>
 #include <string>
+
+#include "data_factory.h"
 enum DataType {
   data_invalid,
   session_init,
@@ -17,36 +19,6 @@ struct DataHeader {
 
 struct DataBody {
   std::string content;
-};
-class DataFactory {
- private:
- public:
-  DataFactory();
-  ~DataFactory();
-  template <class T>
-  static T charTo(char c) {
-    return (T)c;
-  }
-  template <class T>
-  static char toChar(T t) {
-    return (char)t;
-  }
-  template <class T>
-  static T stringTo(std::string s) {
-    T res;
-    std::istringstream is(s);
-    is >> res;
-    return res;
-  }
-  template <class T>
-  static std::string toString(T t) {
-    std::ostringstream os;
-    os << t;
-    std::string res;
-    std::istringstream is(os.str());
-    is >> res;
-    return res;
-  }
 };
 class DemoData {
  private:

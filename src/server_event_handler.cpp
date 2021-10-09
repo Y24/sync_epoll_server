@@ -29,6 +29,7 @@ void EventHandler::do_read(int fd, std::unordered_map<int, DemoData> &data) {
   logPool.emplace_back(log);
   std::vector<int> destination;
   int targetFd;
+  bool status;
   switch (res.getHeader().type) {
     case data_invalid:
       eventManager.delete_event(fd, EPOLLIN);
@@ -45,8 +46,9 @@ void EventHandler::do_read(int fd, std::unordered_map<int, DemoData> &data) {
       fprintf(stderr, "ServerEventHandler do_read meets session_init!\n");
       break;
     case session_pair:
-      targetFd = factory.stringTo<int>(res.getBody().content);
-      if (!sessionManager.merge({fd, targetFd})) {
+      status = factory.stringTo<int>(res.getBody().content).first;
+      targetFd = factory.stringTo<int>(res.getBody().content).second;
+      if (!status || !sessionManager.merge({fd, targetFd})) {
         fprintf(stderr, "ServerEventHandler do_read: session_pair fails\n");
         data[fd] = DemoData(session_pair, "NOK");
       } else {

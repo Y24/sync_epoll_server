@@ -32,6 +32,3 @@ long long DemoData::getSize() const {
 bool DemoData::isNull() const { return header.type == data_invalid; }
 DataHeader DemoData::getHeader() const { return header; }
 DataBody DemoData::getBody() const { return body; }
-DataFactory::DataFactory() {}
-
-DataFactory::~DataFactory() {}
